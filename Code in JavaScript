@@ -1,7 +1,7 @@
 const items = $input.all();
 
-// TEST manual karena data sheet tahun 2026
-const today = new Date("2026-05-11");
+// Mengambil tanggal saat ini (real-time ketika workflow berjalan)
+const today = new Date();
 today.setHours(23, 59, 59, 999);
 
 const sevenDaysAgo = new Date(today);
