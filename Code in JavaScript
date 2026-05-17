@@ -1,0 +1,35 @@
+const items = $input.all();
+
+// TEST manual karena data sheet tahun 2026
+const today = new Date("2026-05-11");
+today.setHours(23, 59, 59, 999);
+
+const sevenDaysAgo = new Date(today);
+sevenDaysAgo.setDate(today.getDate() - 7);
+sevenDaysAgo.setHours(0, 0, 0, 0);
+
+let weeklyExpenses = [];
+let formattedString = "Data pengeluaran saya minggu ini:\n";
+let hasExpenses = false;
+
+for (const item of items) {
+  const rawTanggal = item.json.Tanggal;
+
+  const [day, month, year] = rawTanggal.split("/");
+  const expenseDate = new Date(`${year}-${month}-${day}`);
+
+  if (expenseDate >= sevenDaysAgo && expenseDate <= today) {
+    weeklyExpenses.push(item.json);
+
+    formattedString += `- ${item.json.Deskripsi}: Rp${item.json["Jumlah (IDR)"]}\n`;
+
+    hasExpenses = true;
+  }
+}
+
+return [{
+  json: {
+    promptData: formattedString,
+    hasExpenses
+  }
+}];
