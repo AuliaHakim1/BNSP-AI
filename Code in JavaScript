@@ -1,17 +1,19 @@
-const items = $input.all();
+const items = $input.all(); //ini buat ngambil keseluruhan data dari node sebelumnya
 
 // Mengambil tanggal saat ini (real-time ketika workflow berjalan)
 const today = new Date();
-today.setHours(23, 59, 59, 999);
+today.setHours(23, 59, 59, 999);// Mengatur jam 'today' ke penghujung hari (23:59:59.999). 
+// Tujuannya: biar transaksi yang terjadi sampai tengah malam nanti tetap kehitung masuk "hari ini".
 
-const sevenDaysAgo = new Date(today);
-sevenDaysAgo.setDate(today.getDate() - 7);
-sevenDaysAgo.setHours(0, 0, 0, 0);
+const sevenDaysAgo = new Date(today); //ini bikin copian dari tanggal hari ini buat jadi patokan
+sevenDaysAgo.setDate(today.getDate() - 7); //ini buat ngurangin copian tadi sebanyak seminggu
+sevenDaysAgo.setHours(0, 0, 0, 0); //ini di set ke jam 12 malem supaya transaksi pagi itu bakal tetep kebaca
 
 let weeklyExpenses = [];
 let formattedString = "Data pengeluaran saya minggu ini:\n";
-let hasExpenses = false;
+let hasExpenses = false; //ini tanda awalnya false dan bakal jadi true klo ketemu 1 transaksi minggu ini
 
+//ini solusi buat penanggalan yg suka jadi issue eror
 for (const item of items) {
   const rawTanggal = item.json.Tanggal;
 
